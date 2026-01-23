@@ -1,14 +1,19 @@
 # Compiler files
 cache/
 out/
-
-# Ignores development broadcast logs
-!/broadcast
-/broadcast/*/31337/
-/broadcast/**/dry-run/
+broadcast/
 
 # Docs
 docs/
 
 # Dotenv file
 .env
+
+# OS / Editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Logs
+*.log
