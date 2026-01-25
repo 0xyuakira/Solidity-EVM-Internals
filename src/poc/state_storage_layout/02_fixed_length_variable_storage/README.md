@@ -90,7 +90,7 @@ Observation focuses on **slot allocation order** and **byte alignment/padding** 
 
 ---
 
-## 5. 🎓 Conclusion / 结论
+## 5. 🎓 Conclusion
 
 - Each variable occupies storage slots according to the declaration order in the contract.
 - Small types (`bool`, `uint16`, `enum`) are stored starting from the **lowest-order bytes** of a slot, leaving the higher-order bytes as padding (filled with zeros).
