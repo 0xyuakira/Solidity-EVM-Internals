@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.33;
 
-import 'forge-std/Test.sol';
-import '../../src/poc/state_storage_layout/01_storage_slot_width_invariance/SlotWidth.sol';
+import "forge-std/Test.sol";
+import "../../src/poc/state_storage_layout/01_storage_slot_width_invariance/SlotWidth.sol";
 
 /// @title SlotWidthTest
 /// @notice Test suite for demonstrating that a single storage slot cannot exceed 256 bits in EVM.
