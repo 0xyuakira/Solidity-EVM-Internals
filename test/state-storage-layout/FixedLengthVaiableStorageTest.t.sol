@@ -5,7 +5,7 @@ import "forge-std/Test.sol";
 import "../../src/poc/state_storage_layout/02_fixed_length_variable_storage/FixedLengthVariableStorage.sol";
 
 /// @title FixedLengthVariableStorageTest
-/// @notice Forge test: Verify how fixed-length variables are stored in EVM storage slots
+/// @notice Verify how fixed-length variables are stored in EVM storage slots
 contract FixedLengthVaiableStorageTest is Test {
     FixedLengthVariableStorage fixedLengthVariableStorage;
 
@@ -18,7 +18,9 @@ contract FixedLengthVaiableStorageTest is Test {
             hex"1234567890abcdef1234567890abcdef1234567890abcdef1234567890abce", // d: bytes31
             0x1234567890123456789012345678901234567890, // e: address
             hex"1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcef1", // f: bytes32
-            FixedLengthVariableStorage.MyEnum.TWO // g: enum
+            FixedLengthVariableStorage.MyEnum.TWO, // g: enum
+            0x1234567890abcdef1234567890abcdef, // h: int128
+            0x1234567890abcdef1234567890abcdef // i: int128
         );
     }
 
@@ -45,9 +47,17 @@ contract FixedLengthVaiableStorageTest is Test {
             hex"1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcef1"
         );
         assertEq(uint(fixedLengthVariableStorage.g()), 2);
+        assertEq(
+            fixedLengthVariableStorage.h(),
+            0x1234567890abcdef1234567890abcdef
+        );
+        assertEq(
+            fixedLengthVariableStorage.i(),
+            0x1234567890abcdef1234567890abcdef
+        );
 
         // ==== Read storage slots one by one ====
-        for (uint256 slotIndex = 0; slotIndex < 7; slotIndex++) {
+        for (uint256 slotIndex = 0; slotIndex < 8; slotIndex++) {
             bytes32 slotValue = vm.load(
                 address(fixedLengthVariableStorage),
                 bytes32(slotIndex)

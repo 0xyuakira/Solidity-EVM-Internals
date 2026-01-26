@@ -4,7 +4,7 @@ pragma solidity ^0.8.33;
 /// @title FixedLengthVariableStorage
 /// @notice Experimental contract to demonstrate how fixed-length variables are stored in EVM storage slots
 /// @dev Proof-of-concept (PoC) contract with multiple fixed-length state variables:
-///      - bool, uint256, uint16, bytes31, address, bytes32, and enum
+///      - bool, uint256, uint16, bytes31, address, bytes32, int128, and enum
 ///      - Variables are initialized through the constructor for testing purposes
 ///      - Can be used with vm.load in tests to inspect the contents of each storage slot
 contract FixedLengthVariableStorage {
@@ -17,6 +17,8 @@ contract FixedLengthVariableStorage {
     address public e; // 20 bytes
     bytes32 public f; // 32 bytes
     MyEnum public g; // 1 byte, Enum stored as uint8
+    int128 public h; // 16 bytes
+    int128 public i; // 16 bytes
 
     enum MyEnum {
         ZERO,
@@ -32,7 +34,9 @@ contract FixedLengthVariableStorage {
         bytes31 _d,
         address _e,
         bytes32 _f,
-        MyEnum _g
+        MyEnum _g,
+        int128 _h,
+        int128 _i
     ) {
         a = _a;
         b = _b;
@@ -41,5 +45,7 @@ contract FixedLengthVariableStorage {
         e = _e;
         f = _f;
         g = _g;
+        h = _h;
+        i = _i;
     }
 }

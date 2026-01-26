@@ -1,20 +1,21 @@
-# PoC: Fixed-Length Variable Storage in EVM Slots
+# PoC: Fixed-Length Variable in EVM Storage Slots
 
 ---
 
 ## 1. 🔬 Objective
 
-Demonstrate how fixed-length Solidity variables are stored in individual EVM storage slots. The PoC allows observation of raw slot contents using `vm.load`.
+Demonstrate how fixed-length variables are stored in EVM storage slots. The PoC allows observation of raw slot contents using `vm.load`.
 Focus on observing:
 
 - Whether variables are allocated in slots following their declaration order.
 - How small types (e.g., uint16, bool, enum) are padded within a slot.
+- Whether multiple fixed-length variables whose combined size is less than or equal to 32 bytes are packed into the same storage slot.
 
 ---
 
 ## 2. 🏗️ Architecture
 
-- The contract declares multiple fixed-length state variables of various types: bool, uint256, uint16, bytes31, address, bytes32, and an enum.
+- The contract declares multiple fixed-length state variables of various types: bool, uint256, uint16, bytes31, address, bytes32, int128, and an enum.
 
 - All variables are initialized via the constructor to allow flexible assignment in tests.
 
@@ -33,7 +34,9 @@ constructor(
     bytes31 _d,
     address _e,
     bytes32 _f,
-    MyEnum _g
+    MyEnum _g,
+    int128 _h,
+    int128 _i
 ) {
     a = _a;
     b = _b;
@@ -42,6 +45,8 @@ constructor(
     e = _e;
     f = _f;
     g = _g;
+    h = _h;
+    i = _i;
 }
 
 // Deploy and initialize the contract
@@ -53,7 +58,9 @@ function setUp() public {
         hex"1234567890abcdef1234567890abcdef1234567890abcdef1234567890abce", // d: bytes31
         0x1234567890123456789012345678901234567890, // e: address
         hex"1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcef1", // f: bytes32
-        FixedLengthVariableStorage.MyEnum.TWO // g: enum
+        FixedLengthVariableStorage.MyEnum.TWO, // g: enum
+        0x1234567890abcdef1234567890abcdef, // h: int128
+        0x1234567890abcdef1234567890abcdef, // i: int128
     );
     }
 
@@ -83,15 +90,21 @@ The following table lists the raw 32-byte values of each storage slot as obtaine
 | 3    | 0x001234567890abcdef1234567890abcdef1234567890abcdef1234567890abce |
 | 4    | 0x0000000000000000000000001234567890123456789012345678901234567890 |
 | 5    | 0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcef1 |
-| 6    | 0x0000000000000000000000000000000000000000000000000000000000000002 |
+| 6    | 0x0000000000000000000000000000001234567890abcdef1234567890abcdef02 |
+| 7    | 0x000000000000000000000000000000001234567890abcdef1234567890abcdef |
 
-These values represent the actual bytes stored in each EVM slot.  
-Observation focuses on **slot allocation order** and **byte alignment/padding** of variables.
+Observed phenomena:
+
+- Storage slots appear to be allocated in the order of variable declarations.
+- Variables that occupy fewer than 32 bytes (e.g., `bool`, `address`, `uint16`, `bytes31`, `int128`) have their data stored in the lower-order bytes of a slot, with higher-order bytes filled with zeros.
+- Slot 6 contains data from both variables `g` and `h`.
+- Some slots contain only a single variable, which occupies the entire slot (e.g., `uint256` or `bytes32`).
 
 ---
 
 ## 5. 🎓 Conclusion
 
-- Each variable occupies storage slots according to the declaration order in the contract.
-- Small types (`bool`, `uint16`, `enum`) are stored starting from the **lowest-order bytes** of a slot, leaving the higher-order bytes as padding (filled with zeros).
-- Larger types (`uint256`, `bytes31`, `bytes32`, `address`) generally occupy a full slot.
+- Storage slots are allocated sequentially following the declaration order of state variables.
+- Fixed-length variables that do not occupy the full 32 bytes are right-aligned within a storage slot, with unused higher-order bytes padded with zeros.
+- Adjacent fixed-length variables are packed into the same storage slot when their combined size does not exceed 32 bytes.
+- Fixed-length variables that occupy the full 32 bytes, or cannot be packed with an adjacent variable due to size constraints, each occupy a dedicated storage slot.
