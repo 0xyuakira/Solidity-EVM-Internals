@@ -27,17 +27,7 @@ contract FixedLengthVariableStorage {
     }
 
     /// @notice Constructor: initialize all fixed-length variables
-    constructor(
-        bool _a,
-        uint256 _b,
-        uint16 _c,
-        bytes31 _d,
-        address _e,
-        bytes32 _f,
-        MyEnum _g,
-        int128 _h,
-        int128 _i
-    ) {
+    constructor(bool _a, uint256 _b, uint16 _c, bytes31 _d, address _e, bytes32 _f, MyEnum _g, int128 _h, int128 _i) {
         a = _a;
         b = _b;
         c = _c;

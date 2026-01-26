@@ -29,39 +29,18 @@ contract FixedLengthVaiableStorageTest is Test {
     function test_fixed_length_slot() public {
         // ==== Verify state variable getters ====
         assertEq(fixedLengthVariableStorage.a(), true);
-        assertEq(
-            fixedLengthVariableStorage.b(),
-            0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef
-        );
+        assertEq(fixedLengthVariableStorage.b(), 0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef);
         assertEq(fixedLengthVariableStorage.c(), 0x1234);
-        assertEq(
-            fixedLengthVariableStorage.d(),
-            hex"1234567890abcdef1234567890abcdef1234567890abcdef1234567890abce"
-        );
-        assertEq(
-            fixedLengthVariableStorage.e(),
-            0x1234567890123456789012345678901234567890
-        );
-        assertEq(
-            fixedLengthVariableStorage.f(),
-            hex"1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcef1"
-        );
-        assertEq(uint(fixedLengthVariableStorage.g()), 2);
-        assertEq(
-            fixedLengthVariableStorage.h(),
-            0x1234567890abcdef1234567890abcdef
-        );
-        assertEq(
-            fixedLengthVariableStorage.i(),
-            0x1234567890abcdef1234567890abcdef
-        );
+        assertEq(fixedLengthVariableStorage.d(), hex"1234567890abcdef1234567890abcdef1234567890abcdef1234567890abce");
+        assertEq(fixedLengthVariableStorage.e(), 0x1234567890123456789012345678901234567890);
+        assertEq(fixedLengthVariableStorage.f(), hex"1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcef1");
+        assertEq(uint256(fixedLengthVariableStorage.g()), 2);
+        assertEq(fixedLengthVariableStorage.h(), 0x1234567890abcdef1234567890abcdef);
+        assertEq(fixedLengthVariableStorage.i(), 0x1234567890abcdef1234567890abcdef);
 
         // ==== Read storage slots one by one ====
         for (uint256 slotIndex = 0; slotIndex < 8; slotIndex++) {
-            bytes32 slotValue = vm.load(
-                address(fixedLengthVariableStorage),
-                bytes32(slotIndex)
-            );
+            bytes32 slotValue = vm.load(address(fixedLengthVariableStorage), bytes32(slotIndex));
             // Print slot index
             emit log_uint(slotIndex);
             // Print raw slot content
