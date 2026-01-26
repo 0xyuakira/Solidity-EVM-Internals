@@ -4,8 +4,7 @@
 
 ## 1. 🔬 Objective
 
-Demonstrate how fixed-length variables are stored in EVM storage slots. The PoC allows observation of raw slot contents using `vm.load`.
-Focus on observing:
+Demonstrate how fixed-length variables are stored in EVM storage slots. This PoC focuses on observing:
 
 - Whether variables are allocated in slots following their declaration order.
 - How small types (e.g., uint16, bool, enum) are padded within a slot.
@@ -27,17 +26,7 @@ Focus on observing:
 
 ```solidity
 // Constructor initializes multiple fixed-length variables
-constructor(
-    bool _a,
-    uint256 _b,
-    uint16 _c,
-    bytes31 _d,
-    address _e,
-    bytes32 _f,
-    MyEnum _g,
-    int128 _h,
-    int128 _i
-) {
+constructor(bool _a, uint256 _b, uint16 _c, bytes31 _d, address _e, bytes32 _f, MyEnum _g, int128 _h, int128 _i) {
     a = _a;
     b = _b;
     c = _c;
@@ -104,7 +93,7 @@ Observed phenomena:
 
 ## 5. 🎓 Conclusion
 
-- Storage slots are allocated sequentially following the declaration order of state variables.
+- Storage slots are allocated sequentially following the declaration order of Fixed-length variables variables.
 - Fixed-length variables that do not occupy the full 32 bytes are right-aligned within a storage slot, with unused higher-order bytes padded with zeros.
 - Adjacent fixed-length variables are packed into the same storage slot when their combined size does not exceed 32 bytes.
 - Fixed-length variables that occupy the full 32 bytes, or cannot be packed with an adjacent variable due to size constraints, each occupy a dedicated storage slot.
