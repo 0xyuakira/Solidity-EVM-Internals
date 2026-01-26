@@ -1,4 +1,4 @@
-# PoC: Fixed-Length Variable in EVM Storage Slots
+# PoC: Fixed-Length Variable Storage: Slot Packing and Boundary Conditions
 
 ---
 
