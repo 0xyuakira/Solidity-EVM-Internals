@@ -6,7 +6,6 @@ pragma solidity ^0.8.33;
 /// @dev Proof-of-concept (PoC) contract with multiple fixed-length state variables:
 ///      - bool, uint256, uint16, bytes31, address, bytes32, int128, and enum
 ///      - Variables are initialized through the constructor for testing purposes
-///      - Can be used with vm.load in tests to inspect the contents of each storage slot
 contract FixedLengthVariableStorage {
     // ==== Define fixed-length storage variables ====
 
