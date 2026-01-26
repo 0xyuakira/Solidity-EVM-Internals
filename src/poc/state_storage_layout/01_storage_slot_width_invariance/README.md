@@ -14,8 +14,6 @@ The experiment explicitly tests a single data-containing slot of a dynamic `byte
 
 - A 32-byte sequence should fully fit in a single slot.
 - A 33-byte sequence should spill into the next slot.
-- No single slot can store more than 256 bits.
-- `vm.load` can be used to inspect slot contents directly.
 
 ---
 
