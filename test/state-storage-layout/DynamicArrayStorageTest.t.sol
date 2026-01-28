@@ -16,7 +16,7 @@ contract DynamicArrayStorageTest is Test {
     /// @notice Observe storage layout of uint256[] dynamic array
     function test_dynamic_u256_array_storage() public {
         // === Write ===
-        storageContract.pushU256(0x1111);
+        storageContract.u256Array.push(0x1111);
         storageContract.pushU256(0x2222);
         storageContract.pushU256(0x3333);
 

@@ -42,9 +42,9 @@ contract FixedLengthVaiableStorageTest is Test {
         for (uint256 slotIndex = 0; slotIndex < 8; slotIndex++) {
             bytes32 slotValue = vm.load(address(fixedLengthVariableStorage), bytes32(slotIndex));
             // Print slot index
-            emit log_named_uint("Slot",slotIndex);
+            emit log_named_uint("Slot", slotIndex);
             // Print raw slot content
-            emit log_named_bytes32("Raw bytes32 value",slotValue);
+            emit log_named_bytes32("Raw bytes32 value", slotValue);
         }
     }
 }
