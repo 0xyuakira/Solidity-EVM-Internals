@@ -62,7 +62,7 @@ bytes32 slotValue = vm.load(address(fixedLengthVariableStorage), bytes32(slotInd
 **Command:**
 
 ```bash
-forge test --match-test test_fixed_length_slot -vv
+forge test --match-test test_fixed_length_storage -vv
 ```
 
 ---

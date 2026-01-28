@@ -36,21 +36,21 @@ contract DynamicBytesStringStorageTest is Test {
         for (uint256 slotIndex = 0; slotIndex < 6; slotIndex++) {
             bytes32 slotValue = vm.load(address(storageContract), bytes32(slotIndex));
 
-            emit log_uint(slotIndex);
-            emit log_bytes32(slotValue);
+            emit log_named_uint("Slot",slotIndex);
+            emit log_named_bytes32("Raw bytes32 value",slotValue);
             bytes32 dataSlot;
             bytes32 dataValue;
             if (slotIndex > 1) {
                 dataSlot = keccak256(abi.encode(slotIndex));
                 dataValue = vm.load(address(storageContract), dataSlot);
-                emit log_uint(uint256(dataSlot));
-                emit log_bytes32(dataValue);
+                emit log_named_uint("Slot",uint256(dataSlot));
+                emit log_named_bytes32("Raw bytes32 value",dataValue);
             }
             if (slotIndex > 3) {
                 dataSlot = bytes32(uint256(dataSlot) + 1);
                 dataValue = vm.load(address(storageContract), dataSlot);
-                emit log_uint(uint256(dataSlot));
-                emit log_bytes32(dataValue);
+                emit log_named_uint("Slot",uint256(dataSlot));
+                emit log_named_bytes32("Raw bytes32 value",dataValue);
             }
         }
     }

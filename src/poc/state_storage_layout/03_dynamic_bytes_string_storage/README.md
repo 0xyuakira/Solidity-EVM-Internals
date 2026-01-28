@@ -63,7 +63,7 @@ This PoC focuses on observing:
         );
     }
 
-// Use vm.load in tests to read the raw slot value
+    // Use vm.load in tests to read the raw slot value
     for (uint256 slotIndex = 0; slotIndex < 6; slotIndex++) {
             bytes32 slotValue = vm.load(address(storageContract), bytes32(slotIndex));
 
@@ -91,7 +91,7 @@ This PoC focuses on observing:
 **Command:**
 
 ```bash
-forge test --match-test test_dynamic_bytes_string_slot -vv
+forge test --match-test test_dynamic_bytes_string_storage -vv
 ```
 
 ---

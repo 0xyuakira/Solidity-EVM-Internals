@@ -26,7 +26,7 @@ contract FixedLengthVaiableStorageTest is Test {
 
     /// @notice Main test function
     /// @dev Assert all variable values and print storage slot content
-    function test_fixed_length_slot() public {
+    function test_fixed_length_storage() public {
         // ==== Verify state variable getters ====
         assertEq(fixedLengthVariableStorage.a(), true);
         assertEq(fixedLengthVariableStorage.b(), 0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef);
@@ -42,9 +42,9 @@ contract FixedLengthVaiableStorageTest is Test {
         for (uint256 slotIndex = 0; slotIndex < 8; slotIndex++) {
             bytes32 slotValue = vm.load(address(fixedLengthVariableStorage), bytes32(slotIndex));
             // Print slot index
-            emit log_uint(slotIndex);
+            emit log_named_uint("Slot",slotIndex);
             // Print raw slot content
-            emit log_bytes32(slotValue);
+            emit log_named_bytes32("Raw bytes32 value",slotValue);
         }
     }
 }
