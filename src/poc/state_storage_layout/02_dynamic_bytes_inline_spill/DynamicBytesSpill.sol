@@ -7,7 +7,7 @@ pragma solidity ^0.8.33;
 /// @dev Proof-of-concept (PoC) contract with dynamic-length byte sequences state variables:
 ///      - `bytes`
 ///      - `string`
-///      - Variables are initialized through the constructor for testing purposes
+///      Variables are initialized through the constructor for testing purposes
 contract DynamicBytesSpill {
     bytes public b31;
 

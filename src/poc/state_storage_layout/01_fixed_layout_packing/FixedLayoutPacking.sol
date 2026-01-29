@@ -5,7 +5,7 @@ pragma solidity ^0.8.33;
 /// @notice Experimental contract to demonstrate how fixed-length variables are stored in EVM storage slots
 /// @dev Proof-of-concept (PoC) contract with multiple fixed-length state variables:
 ///      - bool, uint256, uint16, bytes31, address, bytes32, enum, uint128[3], struct
-///      - Variables are initialized through the constructor for testing purposes
+///      Variables are initialized through the constructor for testing purposes
 contract FixedLayoutPacking {
     bool public bool_1;
 
