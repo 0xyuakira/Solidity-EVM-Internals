@@ -12,4 +12,16 @@ contract MappingStorage {
     mapping(uint256 => uint256) public uintToUint;
     mapping(address => uint128) public addressToUint;
     mapping(bytes32 => bytes[]) public bytes32ToArray;
+
+    function setUintToUint(uint256 key, uint256 value) external {
+        uintToUint[key] = value;
+    }
+
+    function setAddressToUint(address key, uint128 value) external {
+        addressToUint[key] = value;
+    }
+
+    function setBytes32ToArray(bytes32 key, bytes calldata value) external {
+        bytes32ToArray[key].push(value);
+    }
 }
