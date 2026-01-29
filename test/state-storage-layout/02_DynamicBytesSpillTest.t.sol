@@ -2,7 +2,7 @@
 pragma solidity ^0.8.33;
 
 import "forge-std/Test.sol";
-import "../../src/poc/state_storage_layout/03_dynamic_bytes_inline_spill/DynamicBytesSpill.sol";
+import "../../src/poc/state_storage_layout/02_dynamic_bytes_inline_spill/DynamicBytesSpill.sol";
 
 /// @title DynamicBytesSpillTest
 /// @notice Verify how `bytes` and `string` are stored in EVM storage under different lengths

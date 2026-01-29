@@ -2,7 +2,7 @@
 pragma solidity ^0.8.33;
 
 import "forge-std/Test.sol";
-import "../../src/poc/state_storage_layout/02_fixed_layout_packing/FixedLayoutPacking.sol";
+import "../../src/poc/state_storage_layout/01_fixed_layout_packing/FixedLayoutPacking.sol";
 
 /// @title FixedLayoutPackingTest
 /// @notice Verify how fixed-length variables are stored in EVM storage slots

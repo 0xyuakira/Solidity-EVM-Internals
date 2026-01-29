@@ -2,7 +2,7 @@
 pragma solidity ^0.8.33;
 
 import "forge-std/Test.sol";
-import "../../src/poc/state_storage_layout/05_mapping_storage/MappingStorage.sol";
+import "../../src/poc/state_storage_layout/04_mapping_storage/MappingStorage.sol";
 
 contract MappingStorageTest is Test {
     MappingStorage storageContract;
