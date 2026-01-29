@@ -1,26 +1,26 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.33;
 
-/// @title DynamicBytesStringStorage
+/// @title DynamicBytesSpill
 /// @notice Experimental contract to demonstrate how dynamic-length byte sequences
 ///         (`bytes` and `string`) are stored in EVM storage
 /// @dev Proof-of-concept (PoC) contract with dynamic-length byte sequences state variables:
 ///      - `bytes`
 ///      - `string`
 ///      - Variables are initialized through the constructor for testing purposes
-contract DynamicBytesStringStorage {
-    // ==== Define dynamic-length byte sequences state variables ====
+contract DynamicBytesSpill {
+    bytes public b31;
 
-    bytes public b31; //used to store a 31-byte value
-    string public s31; //used to store a 31-byte value
+    string public s31;
 
-    bytes public b32; //used to store a 32-byte value
-    string public s32; //used to store a 32-byte value
+    bytes public b32;
 
-    bytes public b33; //used to store a 33-byte value
-    string public s33; //used to store a 33-byte value
+    string public s32;
 
-    /// @notice Constructor: initialize dynamic-length byte sequences variables
+    bytes public b33;
+
+    string public s33;
+
     constructor(
         bytes memory _b31,
         string memory _s31,
