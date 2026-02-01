@@ -79,7 +79,7 @@ Observed phenomena:
 ## 4. 🎓 Conclusion
 
 - `bytes` and `string` are both dynamic-length byte sequence types and follow identical storage layout rules at the EVM storage level. Any differences between them exist only at the type-semantic level, not in their underlying storage implementation.
-- Dynamic-length state variables are still assigned storage slots strictly according to their declaration order within the contract. Each variable occupies a single, independent **declaration slot**.
+- Each Dynamic-length state variable occupies a single, independent **declaration slot**.
 - **Thirty-one bytes** represents the critical boundary in the storage layout of dynamic byte sequences:
     - When the data length ≤ 31 bytes, the raw byte data is stored inline in the **higher-order** 31 bytes of the declaration slot.
     - When the data length ≥ 32 bytes, the declaration slot no longer stores raw data. Instead, the raw byte data is stored starting at the storage slot derived from `keccak256(declaration_slot)`, potentially spanning multiple consecutive slots. Any unused bytes in the final slot are filled with zero padding in the **lower-order** bytes.   

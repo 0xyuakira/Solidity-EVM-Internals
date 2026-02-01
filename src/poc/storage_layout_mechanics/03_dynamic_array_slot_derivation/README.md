@@ -112,10 +112,6 @@ Observed phenomena:
 
 ## 4. 🎓 Conclusion
 
-- The declaration slots of dynamic arrays are allocated strictly in the order they are declared in the contract.
-
 - The declaration slot stores only the length of the array.
-
 - Array elements are not stored in the declaration slot; they are stored consecutively starting from the slot at `keccak256(declaration_slot)`.
-
 - Each element is stored adaptively according to its own characteristics, and its packing behavior is determined by its size.

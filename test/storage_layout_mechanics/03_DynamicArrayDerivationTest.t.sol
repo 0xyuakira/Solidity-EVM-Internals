@@ -2,7 +2,7 @@
 pragma solidity ^0.8.33;
 
 import "forge-std/Test.sol";
-import "../../src/poc/state_storage_layout/03_dynamic_array_slot_derivation/DynamicArrayDerivation.sol";
+import "../../src/poc/storage_layout_mechanics/03_dynamic_array_slot_derivation/DynamicArrayDerivation.sol";
 
 /// @title DynamicArrayDerivationTest
 /// @notice Verify how dynamic arrays with different element types are stored in EVM storage
