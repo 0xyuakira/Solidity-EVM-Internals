@@ -106,7 +106,7 @@ Observed phenomena:
 
 - The content stored in each element’s declaration slot depends on the actual length of the bytes element.
 
-- The storage layout of each element follows the same rules as shown in **02_dynamic_bytes_inline_spill**, adapting between inline storage and external slots depending on the element length.
+- The storage layout of each element follows the same rules as shown in **03_dynamic_bytes_inline_spill**, adapting between inline storage and external slots depending on the element length.
 
 ---
 

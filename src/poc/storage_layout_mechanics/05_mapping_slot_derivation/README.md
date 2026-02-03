@@ -116,7 +116,7 @@ Observed phenomena:
 
 - The declaration slot (`slot 2`) remains zero after writes.
 - The slot derived from `keccak256(key, declaration_slot)` serves as the declaration slot of the dynamic array and stores the array length.
-- The storage layout of each element in the dynamic array follows the same rules as shown in **03_dynamic_array_slot_derivation**.
+- The storage layout of each element in the dynamic array follows the same rules as shown in **04_dynamic_array_slot_derivation**.
 
 ## 4. 🎓 Conclusion
 

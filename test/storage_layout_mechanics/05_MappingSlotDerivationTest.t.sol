@@ -2,7 +2,7 @@
 pragma solidity ^0.8.33;
 
 import "forge-std/Test.sol";
-import "../../src/poc/storage_layout_mechanics/04_mapping_slot_derivation/MappingSlotDerivation.sol";
+import "../../src/poc/storage_layout_mechanics/05_mapping_slot_derivation/MappingSlotDerivation.sol";
 
 contract MappingSlotDerivationTest is Test {
     MappingSlotDerivation mappingSlotDerivation;
