@@ -51,7 +51,7 @@ Observed phenomena:
 
 ---
 
-4. 🎓 Conclusion
+## 4. 🎓 Conclusion
 
 - EVM Storage behaviorally supports direct addressing across the full `uint256` slot index space.
 - Storage slots are logically independent and exhibit no observable interference based on index magnitude.
