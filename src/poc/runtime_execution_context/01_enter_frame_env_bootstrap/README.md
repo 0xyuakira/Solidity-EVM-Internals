@@ -15,17 +15,13 @@ Observe how execution-environment variables are initialized at call-frame entry,
 Call-frame entry and intra-frame execution behavior for execution-environment variables during:
 
 - A root call frame
-- A forwarded child call frame
-- Multiple observations within the same call frame
+- Two observations around one internal call within the same call frame
 
 ### Method
 
-1. Perform a root call from an EOA into `FrameEnvBootstrap.snapshot`.
-2. Perform a forwarded call from an EOA through `FrameEnvBootstrapForwarder` into `FrameEnvBootstrap.snapshot`.
-3. Within a single call frame, invoke `snapshotPair` to capture two environment snapshots sequentially.
-4. Compare captured environment fields across:
-   - Different call frames
-   - Multiple captures within the same call frame
+1. Perform a root call from an EOA into `FrameEnvBootstrap.snapshot` to capture initialization bindings.
+2. Within one call frame, invoke `snapshotAroundInternal`, execute one internal function call, and capture snapshots before and after the internal call.
+3. Compare captured environment fields across two observations in the same call frame.
 
 ### Observation Surface
 
@@ -33,6 +29,13 @@ Call-frame entry and intra-frame execution behavior for execution-environment va
   - `address(this)`
   - `msg.sender`
   - `msg.value`
+  - `msg.sig`
+  - `tx.origin`
+  - `tx.gasprice`
+  - `block.number`
+  - `block.timestamp`
+  - `block.basefee`
+  - `block.chainid`
   - `msg.data` length
   - `msg.data` hash
 
@@ -44,15 +47,16 @@ Call-frame entry and intra-frame execution behavior for execution-environment va
 forge test --match-path test/runtime_execution_context/01_FrameEnvBootstrapTest.t.sol -vv
 ```
 
-- In the root call frame, `msg.sender` equals the originating EOA, and `address(this)` equals the target contract.
-- In the forwarded call frame, `msg.sender` equals the forwarder contract, while `address(this)` remains the target contract.
-- Across multiple captures within the same call frame:
-  - `address(this)`, `msg.sender`, `msg.value`, and `msg.data` length/hash remain identical.
-  - Only payload-specific views differ.
+- In the root call frame, all captured execution-environment variables are initialized with the root-call context values.
+- Across two captures around one internal call in the same call frame:
+  - `address(this)`, `msg.sender`, `msg.value`, `msg.sig`
+  - `tx.origin`, `tx.gasprice`
+  - `block.number`, `block.timestamp`, `block.basefee`, `block.chainid`
+  - `msg.data` length/hash
+  remain identical.
 
 ---
 
 ## 4. 🎓 Conclusion
 
-Execution-environment variables are initialized when a call frame is entered and remain stable throughout the lifetime of that call frame, while being re-bound at call-frame boundaries.
-
+Execution-environment variables are initialized when a root call frame is entered and remain stable across internal execution within the same call frame.
