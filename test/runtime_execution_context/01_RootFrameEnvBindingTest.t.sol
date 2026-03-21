@@ -62,10 +62,8 @@ contract RootFrameEnvBindingTest is Test {
 
         // ==== Execute with one internal call between two captures ====
         vm.prank(EOA, EOA);
-        (
-            RootFrameEnvBinding.EnvSnapshot memory beforeInternal,
-            RootFrameEnvBinding.EnvSnapshot memory afterInternal
-        ) = rootFrameEnvBinding.snapshotAroundInternal{value: callValue}(payload);
+        (RootFrameEnvBinding.EnvSnapshot memory beforeInternal, RootFrameEnvBinding.EnvSnapshot memory afterInternal) =
+            rootFrameEnvBinding.snapshotAroundInternal{value: callValue}(payload);
         bytes memory expectedData = abi.encodeCall(rootFrameEnvBinding.snapshotAroundInternal, (payload));
 
         // ==== Assert stable frame-level bindings ====
