@@ -19,7 +19,7 @@ Root-call-frame entry and intra-frame execution behavior for execution-environme
 
 ### Method
 
-1. Perform a root call from an EOA into `RootFrameEnvBootstrap.snapshot` to capture initialization bindings.
+1. Perform a root call from an EOA into `RootFrameEnvBinding.snapshot` to capture initialization bindings.
 2. Within one root call frame, invoke `snapshotAroundInternal`, execute one internal function call, and capture snapshots before and after the internal call.
 3. Compare captured environment fields across two observations in the same root call frame.
 
@@ -33,7 +33,7 @@ Root-call-frame entry and intra-frame execution behavior for execution-environme
 ## 3. 📊 Observation
 
 ```bash
-forge test --match-path test/runtime_execution_context/01_RootFrameEnvBootstrapTest.t.sol -vv
+forge test --match-path test/runtime_execution_context/01_RootFrameEnvBindingTest.t.sol -vv
 ```
 
 - In the root call frame, all captured execution-environment variables are initialized with the root-call context values.

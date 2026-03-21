@@ -38,7 +38,7 @@ A minimal contract exposing raw Storage access capabilities:
 ## 3. 📊 Observation
 
 ```bash
-forge test --match-test test_sparse_storage_slot_addressing -vv
+forge test --match-test test_extreme_slot_addressing_independence -vv
 forge test --match-test test_extreme_slot_no_collision -vv
 ```
 

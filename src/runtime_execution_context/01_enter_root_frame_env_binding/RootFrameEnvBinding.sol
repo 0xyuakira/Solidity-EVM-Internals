@@ -1,13 +1,13 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.33;
 
-/// @title RootFrameEnvBootstrap
+/// @title RootFrameEnvBinding
 /// @notice Experimental contract to observe the binding state of execution-environment variables when the root call frame is entered
 /// @dev The snapshot captures root-call-frame environment bindings at function entry:
 ///      - call-frame level variables
 ///      - transaction-level variables
 ///      - block-level variables
-contract RootFrameEnvBootstrap {
+contract RootFrameEnvBinding {
     struct CallFrameEnv {
         address self;
         address sender;

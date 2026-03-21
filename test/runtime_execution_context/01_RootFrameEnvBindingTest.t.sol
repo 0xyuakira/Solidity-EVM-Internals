@@ -2,12 +2,12 @@
 pragma solidity ^0.8.33;
 
 import "forge-std/Test.sol";
-import "../../src/poc/runtime_execution_context/01_enter_frame_env_bootstrap/RootFrameEnvBootstrap.sol";
+import "../../src/runtime_execution_context/01_enter_root_frame_env_binding/RootFrameEnvBinding.sol";
 
-/// @title RootFrameEnvBootstrapTest
+/// @title RootFrameEnvBindingTest
 /// @notice Verify environment binding semantics at root call frame entry
-contract RootFrameEnvBootstrapTest is Test {
-    RootFrameEnvBootstrap frameEnvBootstrap;
+contract RootFrameEnvBindingTest is Test {
+    RootFrameEnvBinding rootFrameEnvBinding;
     address internal constant EOA = address(0xA11CE);
     uint256 internal constant TEST_GAS_PRICE = 7 gwei;
     uint256 internal constant TEST_BASEFEE = 1 gwei;
@@ -16,7 +16,7 @@ contract RootFrameEnvBootstrapTest is Test {
 
     /// @notice Deploy PoC contracts before each test
     function setUp() public {
-        frameEnvBootstrap = new RootFrameEnvBootstrap();
+        rootFrameEnvBinding = new RootFrameEnvBinding();
         vm.deal(EOA, 100 ether);
         vm.txGasPrice(TEST_GAS_PRICE);
         vm.fee(TEST_BASEFEE);
@@ -32,14 +32,14 @@ contract RootFrameEnvBootstrapTest is Test {
 
         // ==== Execute ====
         vm.prank(EOA, EOA);
-        RootFrameEnvBootstrap.EnvSnapshot memory env = frameEnvBootstrap.snapshot{value: callValue}(payload);
-        bytes memory expectedData = abi.encodeCall(frameEnvBootstrap.snapshot, (payload));
+        RootFrameEnvBinding.EnvSnapshot memory env = rootFrameEnvBinding.snapshot{value: callValue}(payload);
+        bytes memory expectedData = abi.encodeCall(rootFrameEnvBinding.snapshot, (payload));
 
         // ==== Assert frame-level bindings ====
-        assertEq(env.callFrame.self, address(frameEnvBootstrap));
+        assertEq(env.callFrame.self, address(rootFrameEnvBinding));
         assertEq(env.callFrame.sender, EOA);
         assertEq(env.callFrame.value, callValue);
-        assertEq(env.callFrame.sig, frameEnvBootstrap.snapshot.selector);
+        assertEq(env.callFrame.sig, rootFrameEnvBinding.snapshot.selector);
         assertEq(env.callFrame.dataLength, expectedData.length);
         assertEq(env.callFrame.dataHash, keccak256(expectedData));
 
@@ -63,10 +63,10 @@ contract RootFrameEnvBootstrapTest is Test {
         // ==== Execute with one internal call between two captures ====
         vm.prank(EOA, EOA);
         (
-            RootFrameEnvBootstrap.EnvSnapshot memory beforeInternal,
-            RootFrameEnvBootstrap.EnvSnapshot memory afterInternal
-        ) = frameEnvBootstrap.snapshotAroundInternal{value: callValue}(payload);
-        bytes memory expectedData = abi.encodeCall(frameEnvBootstrap.snapshotAroundInternal, (payload));
+            RootFrameEnvBinding.EnvSnapshot memory beforeInternal,
+            RootFrameEnvBinding.EnvSnapshot memory afterInternal
+        ) = rootFrameEnvBinding.snapshotAroundInternal{value: callValue}(payload);
+        bytes memory expectedData = abi.encodeCall(rootFrameEnvBinding.snapshotAroundInternal, (payload));
 
         // ==== Assert stable frame-level bindings ====
         assertEq(beforeInternal.callFrame.self, afterInternal.callFrame.self);

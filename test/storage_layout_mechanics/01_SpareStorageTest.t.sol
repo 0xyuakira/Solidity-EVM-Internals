@@ -2,7 +2,7 @@
 pragma solidity ^0.8.33;
 
 import "forge-std/Test.sol";
-import "../../src/poc/storage_layout_mechanics/01_sparse_storage_address_space/SparseStorage.sol";
+import "../../src/storage_layout_mechanics/01_sparse_storage_address_space/SparseStorage.sol";
 
 /// @title SparseStorageTest
 /// @notice Observe EVM storage behavior under extreme slot addressing

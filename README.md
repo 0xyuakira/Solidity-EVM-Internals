@@ -24,7 +24,7 @@ forge install
 
 Run a specific PoC:
 ```bash
-forge test --match-test test_fixed_length_slot -vv
+forge test --match-test test_fixed_length_storage -vv
 ```
 
 ---
