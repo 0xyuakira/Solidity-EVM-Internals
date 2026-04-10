@@ -7,7 +7,6 @@ pragma solidity ^0.8.33;
 contract RootFrameRuntimeStateBootstrap {
     struct ExecutionState {
         uint256 gasLeft;
-        uint256 returnDataSize;
     }
 
     struct MemoryState {
@@ -38,17 +37,15 @@ contract RootFrameRuntimeStateBootstrap {
 
     /// @dev Build one runtime-state snapshot from execution and memory observables.
     function _capture() internal view returns (RuntimeSnapshot memory snap) {
-        uint256 retSize;
         uint256 memSize;
         uint256 freePtr;
 
         assembly {
-            retSize := returndatasize()
             memSize := msize()
             freePtr := mload(0x40)
         }
 
-        snap.execution = ExecutionState({gasLeft: gasleft(), returnDataSize: retSize});
+        snap.execution = ExecutionState({gasLeft: gasleft()});
         snap.memoryState = MemoryState({memorySize: memSize, freeMemPtr: freePtr});
     }
 
