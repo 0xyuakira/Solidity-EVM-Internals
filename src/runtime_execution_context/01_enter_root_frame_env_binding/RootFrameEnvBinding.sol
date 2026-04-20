@@ -37,7 +37,8 @@ contract RootFrameEnvBinding {
 
     /// @dev Capture one environment snapshot at root-frame function entry.
     function snapshot(bytes calldata payload) external payable returns (EnvSnapshot memory env) {
-        env = _capture(payload);
+        payload;
+        env = _capture();
     }
 
     /// @dev Capture two snapshots in one frame: before and inside an internal call.
@@ -46,11 +47,11 @@ contract RootFrameEnvBinding {
         payable
         returns (EnvSnapshot memory beforeInternal, EnvSnapshot memory afterInternal)
     {
-        beforeInternal = _capture(payload);
+        beforeInternal = _capture();
         afterInternal = _internalProbe(payload);
     }
 
-    function _capture(bytes calldata) internal view returns (EnvSnapshot memory env) {
+    function _capture() internal view returns (EnvSnapshot memory env) {
         env.callFrame = CallFrameEnv({
             self: address(this),
             sender: msg.sender,
@@ -71,6 +72,7 @@ contract RootFrameEnvBinding {
     }
 
     function _internalProbe(bytes calldata payload) internal view returns (EnvSnapshot memory env) {
-        env = _capture(payload);
+        payload;
+        env = _capture();
     }
 }
