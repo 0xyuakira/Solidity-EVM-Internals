@@ -1,12 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.33;
 
-/// @title RootFrameContext
-/// @notice Observe the initialized frame-local context when a root call frame is entered.
-/// @dev The snapshot captures root-frame-local context at frame establishment:
-///      - call context: address(this), msg.sender, msg.value, msg.sig, msg.data
-///      - runtime context: gasleft(), msize(), mload(0x40)
-contract RootFrameContext {
+abstract contract FrameContextCapture {
     struct CallContext {
         address self;
         address sender;
@@ -25,11 +20,6 @@ contract RootFrameContext {
     struct FrameContextSnapshot {
         CallContext callCtx;
         RuntimeContext runtime;
-    }
-
-    /// @notice Capture the observable frame-local context in the root call frame.
-    function snapshot(bytes calldata) external payable returns (FrameContextSnapshot memory snap) {
-        snap = _capture();
     }
 
     function _capture() internal view returns (FrameContextSnapshot memory snap) {
@@ -51,5 +41,36 @@ contract RootFrameContext {
         });
 
         snap.runtime = RuntimeContext({gasLeft: gasleft(), memorySize: memSize, freeMemPtr: freePtr});
+    }
+}
+
+/// @title CallFrameContextTarget
+/// @notice Capture child-frame-local context at call-frame entry.
+contract CallFrameContextTarget is FrameContextCapture {
+    function snapshot(bytes calldata) external payable returns (FrameContextSnapshot memory snap) {
+        snap = _capture();
+    }
+}
+
+/// @title CallFrameContext
+/// @notice Observe frame-local context before and at child-frame entry under CALL.
+/// @dev The snapshots cover the same frame-local observation surface across a CALL transition:
+///      - call context: address(this), msg.sender, msg.value, msg.sig, msg.data
+///      - runtime context: gasleft(), msize(), mload(0x40)
+contract CallFrameContext is FrameContextCapture {
+    CallFrameContextTarget public immutable target;
+
+    constructor() {
+        target = new CallFrameContextTarget();
+    }
+
+    /// @notice Capture one parent-frame snapshot, then one child-frame-entry snapshot under CALL.
+    function snapshotAcrossCall(bytes calldata payload)
+        external
+        payable
+        returns (FrameContextSnapshot memory beforeCall, FrameContextSnapshot memory insideChild)
+    {
+        beforeCall = _capture();
+        insideChild = target.snapshot{value: msg.value}(payload);
     }
 }
