@@ -24,7 +24,7 @@ abstract contract CallContextCapture {
 }
 
 /// @title CallContextTarget
-/// @notice Capture child-frame-local call context under different external call modes.
+/// @notice Capture call context in the called frame under different external call modes.
 contract CallContextTarget is CallContextCapture {
     function snapshot(bytes calldata payload) external payable returns (CallContext memory ctx) {
         payload;
@@ -33,7 +33,7 @@ contract CallContextTarget is CallContextCapture {
 }
 
 /// @title CallContextSwitch
-/// @notice Compare frame-local call context across root entry, CALL, DELEGATECALL, and STATICCALL.
+/// @notice Compare call context in the root call frame and under CALL-family modes.
 /// @dev The observation surface is limited to call context:
 ///      - address(this), msg.sender, msg.value, msg.sig, msg.data
 contract CallContextSwitch is CallContextCapture {
@@ -43,8 +43,8 @@ contract CallContextSwitch is CallContextCapture {
         target = new CallContextTarget();
     }
 
-    /// @notice Capture root-frame call context, then compare it against three child-frame transitions.
-    function snapshotAcrossTransitions(bytes calldata payload)
+    /// @notice Capture root-frame call context, then capture call contexts under CALL, DELEGATECALL, and STATICCALL.
+    function snapshotCallContextSwitch(bytes calldata payload)
         external
         payable
         returns (
