@@ -31,6 +31,8 @@ contract CallContextSwitchTest is Test {
         ) = callContextSwitch.snapshotCallContextSwitch{value: callValue}(payload);
 
         CallContextTarget callContextTarget = callContextSwitch.target();
+        bytes memory rootData = abi.encodeCall(callContextSwitch.snapshotCallContextSwitch, (payload));
+        bytes memory targetData = abi.encodeCall(callContextTarget.snapshot, (payload));
 
         // Print reference values used to interpret the snapshots below.
         console2.log("== reference values ==");
@@ -57,6 +59,35 @@ contract CallContextSwitchTest is Test {
         _logContext("call", callCtx);
         _logContext("delegatecall", delegateCtx);
         _logContext("staticcall", staticCtx);
+
+        // Verify the call-context binding rules shown in the snapshots.
+        assertEq(rootCtx.self, address(callContextSwitch));
+        assertEq(rootCtx.sender, EOA);
+        assertEq(rootCtx.value, callValue);
+        assertEq(rootCtx.sig, callContextSwitch.snapshotCallContextSwitch.selector);
+        assertEq(rootCtx.dataLength, rootData.length);
+        assertEq(rootCtx.dataHash, keccak256(rootData));
+
+        assertEq(callCtx.self, address(callContextTarget));
+        assertEq(callCtx.sender, address(callContextSwitch));
+        assertEq(callCtx.value, callValue);
+        assertEq(callCtx.sig, callContextTarget.snapshot.selector);
+        assertEq(callCtx.dataLength, targetData.length);
+        assertEq(callCtx.dataHash, keccak256(targetData));
+
+        assertEq(delegateCtx.self, address(callContextSwitch));
+        assertEq(delegateCtx.sender, EOA);
+        assertEq(delegateCtx.value, callValue);
+        assertEq(delegateCtx.sig, callContextTarget.snapshot.selector);
+        assertEq(delegateCtx.dataLength, targetData.length);
+        assertEq(delegateCtx.dataHash, keccak256(targetData));
+
+        assertEq(staticCtx.self, address(callContextTarget));
+        assertEq(staticCtx.sender, address(callContextSwitch));
+        assertEq(staticCtx.value, 0);
+        assertEq(staticCtx.sig, callContextTarget.snapshot.selector);
+        assertEq(staticCtx.dataLength, targetData.length);
+        assertEq(staticCtx.dataHash, keccak256(targetData));
     }
 
     function _logContext(string memory label, CallContextSwitch.CallContext memory ctx) internal pure {
