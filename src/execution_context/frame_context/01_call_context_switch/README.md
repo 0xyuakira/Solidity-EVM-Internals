@@ -56,7 +56,7 @@ A minimal pair of contracts exposing call-context snapshots:
 ## 3. 📊 Observation
 
 ```bash
-forge test --match-path test/runtime_execution_context/frame_context/01_CallFrameContextTest.t.sol -vv
+forge test --match-path test/execution_context/frame_context/01_CallContextSwitchTest.t.sol -vv
 ```
 
 The following table lists the reference values printed before the call-context snapshots:

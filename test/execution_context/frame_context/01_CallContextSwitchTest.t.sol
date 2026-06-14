@@ -3,7 +3,7 @@ pragma solidity ^0.8.33;
 
 import "forge-std/Test.sol";
 import "forge-std/console2.sol";
-import "../../../src/runtime_execution_context/frame_context/01_call_context_switch/CallContextSwitch.sol";
+import "../../../src/execution_context/frame_context/01_call_context_switch/CallContextSwitch.sol";
 
 /// @title CallContextSwitchTest
 /// @notice Verify call context in the root call frame and under CALL-family modes
